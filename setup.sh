@@ -184,5 +184,20 @@ else
 fi
 
 # -----------------------------------------------------------
+echo -e "\n${YELLOW}===== 6. CONFIGURE GNOME DASH-TO-DOCK =====${NC}"
+if command -v gsettings &>/dev/null; then
+    log_success "Setting Dash-to-Dock click-action to 'minimize'..."
+    gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize' && \
+        log_success "Dash-to-Dock configuration applied successfully."
+else
+    log_warning "gsettings not found. Skipping Dash-to-Dock configuration."
+fi
+
+# -----------------------------------------------------------
+echo -e "\n${GREEN}***************************************************${NC}"
+log_success "SETUP COMPLETED SUCCESSFULLY!"
+
+
+# -----------------------------------------------------------
 echo -e "\n${GREEN}***************************************************${NC}"
 log_success "SETUP COMPLETED SUCCESSFULLY!"
