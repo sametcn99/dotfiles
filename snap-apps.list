@@ -1,12 +1,12 @@
 dotnet
-code-insiders
+code-insiders --classic
 spotify
 obsidian
 raindrop
-postman
+postman --classic
 telegram-desktop
 discord
-sublime-text
+sublime-text --classic
 htop
 vlc
 gimp
@@ -17,4 +17,3 @@ node --classic
 bitwarden
 docker
 termius-app
-wethr
