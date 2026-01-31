@@ -1,4 +1,3 @@
-dotnet
 code-insiders --classic
 spotify
 obsidian
@@ -7,15 +6,7 @@ postman --classic
 telegram-desktop
 discord
 sublime-text --classic
-htop
-vlc
-gimp
-chromium
-firefox
-node --classic
 bitwarden
-docker
 termius-app
 fx
-emacs
 beekeeper-studio
