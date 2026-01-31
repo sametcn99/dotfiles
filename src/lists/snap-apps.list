@@ -17,3 +17,6 @@ node --classic
 bitwarden
 docker
 termius-app
+fx
+emacs
+beekeeper-studio
