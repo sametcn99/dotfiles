@@ -8,6 +8,10 @@ export class SystemPackagesTask implements ITask {
 	name = "Install System Packages";
 	private _toInstall: string[] = [];
 
+	applySelection(selectedItems: Set<string>): void {
+		this._toInstall = this._toInstall.filter((pkg) => selectedItems.has(pkg));
+	}
+
 	async check(context: ISystemContext): Promise<TaskCheckResult> {
 		const result: TaskCheckResult = { upToDate: [], toInstall: [] };
 

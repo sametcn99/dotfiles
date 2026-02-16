@@ -1,0 +1,48 @@
+name: Build & Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type check
+        run: bunx tsc --noEmit
+
+      - name: Build executable
+        run: bun build src/index.ts --compile --outfile dotfiles-setup
+
+      - name: Set release tag
+        id: tag
+        run: |
+          COMMIT_SHORT=$(git rev-parse --short HEAD)
+          DATE=$(date +'%Y%m%d-%H%M%S')
+          TAG="${COMMIT_SHORT}-${DATE}"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "commit_short=${COMMIT_SHORT}" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          body: |
+            Automated release from commit `${{ steps.tag.outputs.commit_short }}` (${{ github.sha }})
+
+            **Commit:** ${{ github.event.head_commit.message }}
+          files: dotfiles-setup
+          make_latest: true

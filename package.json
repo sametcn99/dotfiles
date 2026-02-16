@@ -3,11 +3,14 @@
 	"version": "1.0.0",
 	"module": "src/index.ts",
 	"type": "module",
-	"dependencies": {},
+	"dependencies": {
+		"@opentui/core": "^0.1.79"
+	},
 	"scripts": {
+		"start": "bun src/index.ts",
 		"lint": "biome lint --write",
 		"format": "biome format --write",
-		"check": "biome check --write",
+		"check": "biome check --write && bun run check:duplicates",
 		"check:duplicates": "bun scripts/check_duplicates.ts"
 	},
 	"devDependencies": {

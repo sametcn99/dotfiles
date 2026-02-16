@@ -18,7 +18,10 @@ export interface ISystemContext {
 	rootDir: string;
 	getLogger(): ILogger;
 	exec(command: string[]): Promise<string>;
-	execStream(command: string[]): Promise<boolean>;
+	execStream(
+		command: string[],
+		options?: { silent?: boolean },
+	): Promise<boolean>;
 	askConfirmation(message: string): Promise<boolean>;
 }
 
@@ -32,4 +35,5 @@ export interface ITask {
 	name: string;
 	check(context: ISystemContext): Promise<TaskCheckResult>;
 	execute(context: ISystemContext): Promise<void>;
+	applySelection?(selectedItems: Set<string>): void;
 }

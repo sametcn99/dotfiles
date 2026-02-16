@@ -10,7 +10,19 @@ export class SnapPackagesTask implements ITask {
 	private _toInstall: { name: string; flags: string[] }[] = [];
 	private _needsSnapd: boolean = false;
 
+	applySelection(selectedItems: Set<string>): void {
+		this._toInstall = this._toInstall.filter((req) =>
+			selectedItems.has(req.name),
+		);
+		if (this._toInstall.length === 0) {
+			this._needsSnapd = false;
+		}
+	}
+
 	async check(context: ISystemContext): Promise<TaskCheckResult> {
+		this._toInstall = [];
+		this._needsSnapd = false;
+
 		const result: TaskCheckResult = { upToDate: [], toInstall: [] };
 
 		const snapListPath = `${context.rootDir}/src/lists/snap-apps.list`;
@@ -48,7 +60,7 @@ export class SnapPackagesTask implements ITask {
 	async execute(context: ISystemContext): Promise<void> {
 		const logger = context.getLogger();
 
-		if (this._toInstall.length === 0 && !this._needsSnapd) {
+		if (this._toInstall.length === 0) {
 			logger.log("No snap action required.");
 			return;
 		}

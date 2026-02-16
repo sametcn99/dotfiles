@@ -45,10 +45,13 @@ export class SystemContext implements ISystemContext {
 		return text;
 	}
 
-	public async execStream(command: string[]): Promise<boolean> {
+	public async execStream(
+		command: string[],
+		options?: { silent?: boolean },
+	): Promise<boolean> {
 		const proc = Bun.spawn(command, {
-			stdout: "inherit",
-			stderr: "inherit",
+			stdout: options?.silent ? "pipe" : "inherit",
+			stderr: options?.silent ? "pipe" : "inherit",
 			stdin: "inherit",
 		});
 		const exitCode = await proc.exited;
